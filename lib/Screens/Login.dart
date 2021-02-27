@@ -1,4 +1,8 @@
+import 'package:ecommerce/Screens/Home.dart';
 import 'package:flutter/material.dart';
+import 'package:ecommerce/constants.dart';
+import 'package:ecommerce/Widgets/CustomFormField.dart';
+import 'Signup.dart';
 
 class LoginScreen extends StatelessWidget {
   static String route = 'LoginScreeen';
@@ -8,15 +12,15 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: Scaffold(
-        backgroundColor: Colors.amber,
+        backgroundColor: mainColor,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 50),
-          child: ListView(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 60),
-                child: Form(
-                  key: _formKey,
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 45),
                   child: Container(
                     height: 150,
                     child: Stack(alignment: Alignment.center, children: [
@@ -34,48 +38,74 @@ class LoginScreen extends StatelessWidget {
                     ]),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              TextFormField(
-                cursorColor: Colors.black,
-                decoration: InputDecoration(
-                    hintText: 'Email Address',
-                    prefixIcon: Icon(
-                      Icons.mail,
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.04,
+                ),
+                CustomFormField(
+                  hint: 'Email Address',
+                  icon: Icons.mail,
+                  isPassword: false,
+                  validation: (String val) {
+                    if (val.isEmpty)
+                      return 'You have not entered email address';
+                  },
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.04,
+                ),
+                CustomFormField(
+                  hint: 'Password',
+                  icon: Icons.vpn_key,
+                  isPassword: true,
+                  validation: (String val) {
+                    if (val.isEmpty)
+                      return 'You have not entered your password';
+                  },
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.04,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 50),
+                  child: FlatButton(
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
                       color: Colors.black,
+                      textColor: Colors.white,
+                      child: Text('Log in'),
+                      onPressed: () {
+                        _formKey.currentState.validate();
+                        Navigator.pushReplacementNamed(
+                            context, HomeScreen.route);
+                      }),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.04,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Not registered yet? ',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
                     ),
-                    filled: true,
-                    fillColor: Colors.amber[200],
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(color: Colors.white)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(color: Colors.white))),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              TextFormField(
-                cursorColor: Colors.black,
-                decoration: InputDecoration(
-                    hintText: 'Email Address',
-                    prefixIcon: Icon(
-                      Icons.mail,
-                      color: Colors.black,
-                    ),
-                    filled: true,
-                    fillColor: Colors.amber[200],
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(color: Colors.white)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(color: Colors.white))),
-              ),
-            ],
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacementNamed(
+                            context, SignupScreen.route);
+                      },
+                      child: Text(
+                        'Sign up here',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
