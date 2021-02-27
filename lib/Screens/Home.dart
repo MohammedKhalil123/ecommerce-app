@@ -1,8 +1,12 @@
+import 'package:ecommerce/Screens/Login.dart';
 import 'package:ecommerce/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:ecommerce/Services/Auth.dart';
 
 class HomeScreen extends StatelessWidget {
   static String route = 'HomeScreen';
+
+  final _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +94,10 @@ class HomeScreen extends StatelessWidget {
                 'Sign out',
                 style: TextStyle(color: Colors.red),
               ),
+              onTap: () async {
+                await _authService.signOut();
+                Navigator.pushReplacementNamed(context, LoginScreen.route);
+              },
             ),
           ],
         ),
