@@ -1,8 +1,11 @@
+import 'package:ecommerce/Providers/Puser.dart';
+import 'package:ecommerce/Screens/Home.dart';
+import 'package:ecommerce/Screens/Settings.dart';
 import 'package:flutter/material.dart';
 import 'Screens/Login.dart';
 import 'Screens/Signup.dart';
-import 'Screens/Home.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,16 +14,20 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: LoginScreen.route,
-      routes: {
-        LoginScreen.route: (context) => LoginScreen(),
-        SignupScreen.route: (context) => SignupScreen(),
-        HomeScreen.route: (context) => HomeScreen(),
-      },
+    return ChangeNotifierProvider<UserProvider>(
+      create: (context) => UserProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: LoginScreen.route,
+        routes: {
+          LoginScreen.route: (context) => LoginScreen(),
+          SignupScreen.route: (context) => SignupScreen(),
+          SettingsScreen.route: (context) => SettingsScreen(),
+          HomeScreen.route: (context) => HomeScreen(),
+        },
+      ),
     );
   }
 }

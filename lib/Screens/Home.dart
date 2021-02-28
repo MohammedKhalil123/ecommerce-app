@@ -1,7 +1,11 @@
+import 'package:ecommerce/Models/User.dart';
+import 'package:ecommerce/Providers/Puser.dart';
 import 'package:ecommerce/Screens/Login.dart';
+import 'package:ecommerce/Screens/Settings.dart';
 import 'package:ecommerce/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce/Services/Auth.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   static String route = 'HomeScreen';
@@ -10,11 +14,34 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final User currentuser = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
         centerTitle: true,
+        actions: <Widget>[
+          Stack(children: [
+            Positioned(
+              right: 5,
+              bottom: 5,
+              child: CircleAvatar(
+                radius: 10,
+                backgroundColor: Colors.red[500],
+                child: Text('3', style: TextStyle(color: Colors.black)),
+              ),
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.shopping_cart_outlined,
+              ),
+              onPressed: () {
+                // do something
+              },
+            ),
+          ]),
+        ],
         title: Text(
-          'Hello, Mohammed',
+          'Hello, ${currentuser.username}',
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: mainColor,
@@ -36,8 +63,8 @@ class HomeScreen extends StatelessWidget {
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                     ),
-                    Text('Mohammed@gmail.com'),
-                    Text('Customer')
+                    Text(currentuser.email),
+                    Text(currentuser.type)
                   ],
                 ),
               ),
@@ -83,6 +110,9 @@ class HomeScreen extends StatelessWidget {
                 size: 30,
               ),
               title: Text('Settings'),
+              onTap: () {
+                Navigator.pushNamed(context, SettingsScreen.route);
+              },
             ),
             ListTile(
               leading: Icon(

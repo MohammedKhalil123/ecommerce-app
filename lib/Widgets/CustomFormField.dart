@@ -5,20 +5,24 @@ class CustomFormField extends StatelessWidget {
   final IconData icon;
   final bool isPassword;
   final Function validation;
+  final Function saved;
 
   CustomFormField(
       {@required this.hint,
       @required this.icon,
       @required this.isPassword,
-      @required this.validation});
+      @required this.validation,
+      @required this.saved});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       obscureText: isPassword,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (val) {
         return validation(val);
+      },
+      onSaved: (val) {
+        saved(val);
       },
       cursorColor: Colors.black,
       decoration: InputDecoration(
