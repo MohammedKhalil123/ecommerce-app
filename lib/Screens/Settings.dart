@@ -25,16 +25,20 @@ class SettingsScreen extends StatelessWidget {
       body: ListView(
         children: [
           ListTile(
-            title: Text(currentuser.email),
+            leading: Icon(
+              Icons.mail,
+              color: Colors.black,
+            ),
+            title: Text('Change email',
+                style: TextStyle(fontWeight: FontWeight.bold)),
           ),
           ListTile(
-            title: Text('Change Name'),
-          ),
-          ListTile(
-            title: Text('Change email'),
-          ),
-          ListTile(
-            title: Text('Change username'),
+            leading: Icon(
+              Icons.person,
+              color: Colors.black,
+            ),
+            title: Text('Change username',
+                style: TextStyle(fontWeight: FontWeight.bold)),
           ),
           ListTile(
             leading: Icon(
@@ -44,7 +48,7 @@ class SettingsScreen extends StatelessWidget {
             ),
             title: Text(
               'Sign out',
-              style: TextStyle(color: Colors.red),
+              style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
             ),
             onTap: () async {
               await _authService.signOut();
