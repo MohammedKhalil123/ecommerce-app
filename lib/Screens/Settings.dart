@@ -11,6 +11,7 @@ class SettingsScreen extends StatelessWidget {
   final _authService = AuthService();
   @override
   Widget build(BuildContext context) {
+    //to be implemented
     final User currentuser = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: AppBar(

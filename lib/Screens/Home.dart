@@ -1,7 +1,7 @@
 import 'package:ecommerce/Models/User.dart';
 import 'package:ecommerce/Providers/Puser.dart';
-import 'package:ecommerce/Screens/Login.dart';
-import 'package:ecommerce/Screens/Settings.dart';
+import 'package:ecommerce/Screens/YourCart.dart';
+import 'package:ecommerce/Widgets/Drawer.dart';
 import 'package:ecommerce/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce/Services/Auth.dart';
@@ -40,8 +40,8 @@ class HomeScreen extends StatelessWidget {
                 bottom: 5,
                 child: CircleAvatar(
                   radius: 10,
-                  backgroundColor: Colors.red[500],
-                  child: Text('3', style: TextStyle(color: Colors.black)),
+                  backgroundColor: Colors.black,
+                  child: Text('3', style: TextStyle(color: Colors.yellow)),
                 ),
               ),
               IconButton(
@@ -49,7 +49,22 @@ class HomeScreen extends StatelessWidget {
                   Icons.shopping_cart_outlined,
                 ),
                 onPressed: () {
-                  // do something
+                  Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                          transitionDuration: Duration(milliseconds: 150),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            return SlideTransition(
+                                position: Tween(
+                                        begin: Offset(1.0, 0.0),
+                                        end: Offset.zero)
+                                    .animate(animation),
+                                child: child);
+                          },
+                          pageBuilder: (context, animation, animationTime) {
+                            return CartScreen();
+                          }));
                 },
               ),
             ]),
@@ -60,100 +75,7 @@ class HomeScreen extends StatelessWidget {
           ),
           backgroundColor: mainColor,
         ),
-        drawer: Drawer(
-          child: ListView(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.2,
-                color: mainColor,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Hi, Mohammed',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 30),
-                      ),
-                      Text(currentuser.email),
-                      Text(currentuser.type)
-                    ],
-                  ),
-                ),
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.shopping_cart_outlined,
-                  size: 30,
-                  color: Colors.black,
-                ),
-                title: Text('Your Cart'),
-                trailing: CircleAvatar(
-                  radius: 15,
-                  backgroundColor: mainColor,
-                  child: Text(
-                    '3',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.shopping_bag,
-                  size: 30,
-                  color: Colors.black,
-                ),
-                title: Text('Your Orders',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-              ),
-              Divider(
-                thickness: 2,
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.directions_car,
-                  size: 30,
-                  color: Colors.black,
-                ),
-                title: Text('Orders to deliver',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-              ),
-              Divider(
-                thickness: 2,
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.settings,
-                  color: Colors.black,
-                  size: 30,
-                ),
-                title: Text('Settings',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                onTap: () {
-                  Navigator.pushNamed(context, SettingsScreen.route);
-                },
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.logout,
-                  size: 30,
-                  color: Colors.red,
-                ),
-                title: Text(
-                  'Sign out',
-                  style:
-                      TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-                ),
-                onTap: () async {
-                  await _authService.signOut();
-                  Navigator.pushReplacementNamed(context, LoginScreen.route);
-                },
-              ),
-            ],
-          ),
-        ),
+        drawer: SideDrawer(currentuser: currentuser, authService: _authService),
         body: TabBarView(
           children: [
             _pservices.getShoes(),

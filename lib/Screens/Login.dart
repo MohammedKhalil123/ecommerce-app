@@ -4,7 +4,6 @@ import 'package:ecommerce/Services/Users.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce/constants.dart';
 import 'package:ecommerce/Widgets/CustomFormField.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'Signup.dart';
 import 'package:ecommerce/Models/User.dart';
@@ -107,11 +106,9 @@ class LoginScreen extends StatelessWidget {
 
                               uprovider.changeuser(currentuser);
 
-                              print(uprovider.user);
-
                               Navigator.pushReplacementNamed(
                                   context, HomeScreen.route);
-                            } on PlatformException catch (e) {
+                            } catch (e) {
                               Scaffold.of(context).showSnackBar(SnackBar(
                                 content: Text(e.message),
                               ));

@@ -1,5 +1,8 @@
 import 'package:ecommerce/Providers/Puser.dart';
+import 'package:ecommerce/Screens/DeliverOrders.dart';
 import 'package:ecommerce/Screens/Home.dart';
+import 'package:ecommerce/Screens/YourCart.dart';
+import 'package:ecommerce/Screens/YourOrders.dart';
 import 'package:ecommerce/Screens/Settings.dart';
 import 'package:flutter/material.dart';
 import 'Screens/Login.dart';
@@ -26,6 +29,9 @@ class MyApp extends StatelessWidget {
           SignupScreen.route: (context) => SignupScreen(),
           SettingsScreen.route: (context) => SettingsScreen(),
           HomeScreen.route: (context) => HomeScreen(),
+          OrdersScreen.route: (context) => OrdersScreen(),
+          DeliverOrdersScreen.route: (context) => DeliverOrdersScreen(),
+          CartScreen.route: (context) => CartScreen(),
         },
       ),
     );

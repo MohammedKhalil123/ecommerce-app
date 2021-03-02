@@ -1,5 +1,7 @@
+import 'package:ecommerce/Providers/Puser.dart';
 import 'package:ecommerce/Screens/Home.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'Login.dart';
 import 'package:ecommerce/constants.dart';
 import 'package:ecommerce/Widgets/CustomFormField.dart';
@@ -164,6 +166,12 @@ class _SignupScreenState extends State<SignupScreen> {
                               UserServices uService = UserServices();
 
                               uService.addUser(newuser);
+
+                              final uprovider = Provider.of<UserProvider>(
+                                  context,
+                                  listen: false);
+
+                              uprovider.changeuser(newuser);
                               Navigator.pushReplacementNamed(
                                   context, HomeScreen.route);
                             } catch (e) {
