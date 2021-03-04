@@ -1,7 +1,15 @@
+import 'package:ecommerce/Models/Cart.dart';
 import 'package:ecommerce/Models/Product.dart';
+import 'package:ecommerce/Models/ProductItem.dart';
+import 'package:ecommerce/Models/User.dart';
+import 'package:ecommerce/Providers/Pcart.dart';
+import 'package:ecommerce/Providers/Puser.dart';
+import 'package:ecommerce/Services/Carts.dart';
 import 'package:ecommerce/constants.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+
+import 'package:provider/provider.dart';
 
 class SelectedProductScreen extends StatefulWidget {
   final Product _selectedProduct;
@@ -13,10 +21,20 @@ class SelectedProductScreen extends StatefulWidget {
 }
 
 class _SelectedProductScreenState extends State<SelectedProductScreen> {
-  int counter = 0;
+  int counter = 1;
+  final CartService cartService = CartService();
 
   @override
   Widget build(BuildContext context) {
+    final User currentuser = Provider.of<UserProvider>(context).user;
+    final Cart currentCart = Provider.of<CartProvider>(context).currentCart;
+
+    bool isaddedtoCart = false;
+
+    currentCart.products.forEach((element) {
+      if (element.name == widget._selectedProduct.name) isaddedtoCart = true;
+    });
+
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
@@ -51,15 +69,43 @@ class _SelectedProductScreenState extends State<SelectedProductScreen> {
               Positioned(
                   bottom: 0,
                   width: MediaQuery.of(context).size.width,
-                  child: FlatButton(
-                      height: MediaQuery.of(context).size.height * 0.15,
-                      color: mainColor,
-                      onPressed: () {},
-                      child: Text(
-                        'Add to Cart',
-                        style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold),
-                      ))),
+                  child: Builder(
+                    builder: (context) => FlatButton(
+                        height: MediaQuery.of(context).size.height * 0.15,
+                        disabledColor: Colors.grey,
+                        color: mainColor,
+                        onPressed: isaddedtoCart
+                            ? null
+                            : () {
+                                ProductItem newProduct = ProductItem(
+                                    name: widget._selectedProduct.name,
+                                    quantity: counter,
+                                    color: null,
+                                    price: widget._selectedProduct.onSale
+                                        ? widget._selectedProduct.priceaftersale
+                                        : widget._selectedProduct.price);
+                                final cprovider = Provider.of<CartProvider>(
+                                    context,
+                                    listen: false);
+
+                                cprovider.addProduct(newProduct);
+
+                                cartService.editCart(
+                                    currentCart, currentuser.id);
+                                Scaffold.of(context).showSnackBar(SnackBar(
+                                  content: Text(
+                                      '${widget._selectedProduct.name} has been successfully added to Cart'),
+                                ));
+                                Future.delayed(Duration(seconds: 1), () {
+                                  Navigator.of(context).pop();
+                                });
+                              },
+                        child: Text(
+                          isaddedtoCart ? 'Item already added' : 'Add to Cart',
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold),
+                        )),
+                  )),
               widget._selectedProduct.quantity == 0
                   ? Positioned(
                       top: MediaQuery.of(context).size.height * 0.25,
@@ -149,11 +195,13 @@ class _SelectedProductScreenState extends State<SelectedProductScreen> {
                               RaisedButton(
                                 shape: CircleBorder(),
                                 color: mainColor,
-                                onPressed: () {
-                                  setState(() {
-                                    if (counter > 0) counter--;
-                                  });
-                                },
+                                onPressed: isaddedtoCart
+                                    ? null
+                                    : () {
+                                        setState(() {
+                                          if (counter > 1) counter--;
+                                        });
+                                      },
                                 child: Text('-',
                                     style: TextStyle(
                                       color: Colors.black,
@@ -170,11 +218,15 @@ class _SelectedProductScreenState extends State<SelectedProductScreen> {
                               RaisedButton(
                                 shape: CircleBorder(),
                                 color: mainColor,
-                                onPressed: () {
-                                  setState(() {
-                                    counter++;
-                                  });
-                                },
+                                onPressed: isaddedtoCart
+                                    ? null
+                                    : () {
+                                        setState(() {
+                                          if (counter <
+                                              widget._selectedProduct.quantity)
+                                            counter++;
+                                        });
+                                      },
                                 child: Text('+',
                                     style: TextStyle(
                                       color: Colors.black,

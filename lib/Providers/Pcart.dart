@@ -10,9 +10,17 @@ class CartProvider extends ChangeNotifier {
 
   Cart currentCart = Cart(products: []);
 
-  void changeuser(ProductItem productitem) {
+  void addProduct(ProductItem productitem) {
     currentCart.products.add(productitem);
-    currentCart = Cart(products: currentCart.products);
     notifyListeners();
+  }
+
+  void getCart(Cart cart) {
+    currentCart = Cart(products: cart.products);
+    notifyListeners();
+  }
+
+  void emptyCart() {
+    currentCart = Cart(products: []);
   }
 }

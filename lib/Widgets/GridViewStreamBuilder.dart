@@ -31,10 +31,10 @@ class _CustomStreamBuilderState extends State<CustomStreamBuilder>
           if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
           }
-          List<Product> list_Of_Products = [];
+          List<Product> listOfProducts = [];
           if (snapshot.hasData) {
             snapshot.data.docs.forEach((element) {
-              list_Of_Products.add(
+              listOfProducts.add(
                 Product(
                     priceaftersale: element.data()[p_onsale]
                         ? element.data()[p_priceaftersale]
@@ -54,14 +54,14 @@ class _CustomStreamBuilderState extends State<CustomStreamBuilder>
                     mainAxisSpacing: 15,
                     crossAxisSpacing: 5,
                     childAspectRatio: 1.0),
-                itemCount: list_Of_Products.length,
+                itemCount: listOfProducts.length,
                 itemBuilder: (context, index) => GestureDetector(
                       onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => SelectedProductScreen(
-                                    list_Of_Products[index])));
+                                    listOfProducts[index])));
                       },
                       child: Container(
                         clipBehavior: Clip.hardEdge,
@@ -78,14 +78,14 @@ class _CustomStreamBuilderState extends State<CustomStreamBuilder>
                               fit: BoxFit.cover,
                               child: Center(
                                 child: Hero(
-                                  tag: list_Of_Products[index].name,
+                                  tag: listOfProducts[index].name,
                                   child: Image.network(
-                                    '${list_Of_Products[index].imageURL}',
+                                    '${listOfProducts[index].imageURL}',
                                   ),
                                 ),
                               ),
                             ),
-                            list_Of_Products[index].onSale
+                            listOfProducts[index].onSale
                                 ? Positioned(
                                     top: 0,
                                     right: 10,
@@ -112,22 +112,22 @@ class _CustomStreamBuilderState extends State<CustomStreamBuilder>
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          list_Of_Products[index].name,
+                                          listOfProducts[index].name,
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                          ' \$${list_Of_Products[index].priceaftersale}',
+                                          ' \$${listOfProducts[index].priceaftersale}',
                                           style: TextStyle(
                                               color: Colors.red[700],
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        list_Of_Products[index].onSale
+                                        listOfProducts[index].onSale
                                             ? Text(
-                                                ' \$${list_Of_Products[index].price}',
+                                                ' \$${listOfProducts[index].price}',
                                                 style: TextStyle(
                                                     color: Colors.red[700],
                                                     fontSize: 15,
@@ -140,7 +140,7 @@ class _CustomStreamBuilderState extends State<CustomStreamBuilder>
                                 ),
                               ),
                             ),
-                            list_Of_Products[index].quantity == 0
+                            listOfProducts[index].quantity == 0
                                 ? Center(
                                     child: Transform.rotate(
                                     angle: -math.pi / 5,

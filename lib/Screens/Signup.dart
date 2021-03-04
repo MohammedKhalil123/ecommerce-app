@@ -1,5 +1,6 @@
 import 'package:ecommerce/Providers/Puser.dart';
 import 'package:ecommerce/Screens/Home.dart';
+import 'package:ecommerce/Services/Carts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'Login.dart';
@@ -23,6 +24,7 @@ class _SignupScreenState extends State<SignupScreen> {
   UserType _usertype = UserType.customer;
   String _email, _password, _username;
   final AuthService authservice = AuthService();
+  final CartService _cartservice = CartService();
 
   @override
   Widget build(BuildContext context) {
@@ -172,6 +174,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                   listen: false);
 
                               uprovider.changeuser(newuser);
+
+                              _cartservice.createCart(newuser);
                               Navigator.pushReplacementNamed(
                                   context, HomeScreen.route);
                             } catch (e) {

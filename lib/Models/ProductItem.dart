@@ -1,14 +1,15 @@
-import 'package:ecommerce/Models/Product.dart';
 import 'package:flutter/cupertino.dart';
 
 class ProductItem {
-  Product p_Name;
+  String name;
   int quantity;
   String color;
+  int price;
 
   ProductItem({
-    @required this.p_Name,
+    @required this.name,
     @required this.quantity,
     @required this.color,
+    @required this.price,
   });
 }

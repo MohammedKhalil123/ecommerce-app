@@ -1,4 +1,6 @@
+import 'package:ecommerce/Models/Cart.dart';
 import 'package:ecommerce/Models/User.dart';
+import 'package:ecommerce/Providers/Pcart.dart';
 import 'package:ecommerce/Screens/DeliverOrders.dart';
 import 'package:ecommerce/Screens/Login.dart';
 import 'package:ecommerce/Screens/YourCart.dart';
@@ -6,6 +8,7 @@ import 'package:ecommerce/Screens/YourOrders.dart';
 import 'package:ecommerce/Screens/Settings.dart';
 import 'package:ecommerce/Services/Auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../constants.dart';
 
@@ -29,6 +32,7 @@ bool isDarkMode = false;
 class _SideDrawerState extends State<SideDrawer> {
   @override
   Widget build(BuildContext context) {
+    final Cart currentCart = Provider.of<CartProvider>(context).currentCart;
     return Drawer(
       child: ListView(
         children: [
@@ -58,14 +62,16 @@ class _SideDrawerState extends State<SideDrawer> {
               color: Colors.black,
             ),
             title: Text('Your Cart'),
-            trailing: CircleAvatar(
-              radius: 15,
-              backgroundColor: mainColor,
-              child: Text(
-                '3',
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
+            trailing: currentCart.products.length != 0
+                ? CircleAvatar(
+                    radius: 15,
+                    backgroundColor: mainColor,
+                    child: Text(
+                      currentCart.products.length.toString(),
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  )
+                : Text(''),
             onTap: () {
               Navigator.push(
                   context,
@@ -210,6 +216,9 @@ class _SideDrawerState extends State<SideDrawer> {
               style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
             ),
             onTap: () async {
+              final cprovider =
+                  Provider.of<CartProvider>(context, listen: false);
+              cprovider.emptyCart();
               await widget._authService.signOut();
               Navigator.pushReplacementNamed(context, LoginScreen.route);
             },

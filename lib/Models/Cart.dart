@@ -4,5 +4,7 @@ import 'package:flutter/cupertino.dart';
 class Cart {
   List<ProductItem> products;
 
-  Cart({@required this.products});
+  Cart({
+    @required this.products,
+  });
 }

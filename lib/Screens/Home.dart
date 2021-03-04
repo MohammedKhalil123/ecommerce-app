@@ -1,4 +1,6 @@
+import 'package:ecommerce/Models/Cart.dart';
 import 'package:ecommerce/Models/User.dart';
+import 'package:ecommerce/Providers/Pcart.dart';
 import 'package:ecommerce/Providers/Puser.dart';
 import 'package:ecommerce/Screens/YourCart.dart';
 import 'package:ecommerce/Widgets/Drawer.dart';
@@ -17,6 +19,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final User currentuser = Provider.of<UserProvider>(context).user;
+    final Cart currentCart = Provider.of<CartProvider>(context).currentCart;
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -35,15 +38,18 @@ class HomeScreen extends StatelessWidget {
           centerTitle: true,
           actions: <Widget>[
             Stack(children: [
-              Positioned(
-                right: 5,
-                bottom: 5,
-                child: CircleAvatar(
-                  radius: 10,
-                  backgroundColor: Colors.black,
-                  child: Text('3', style: TextStyle(color: Colors.yellow)),
-                ),
-              ),
+              currentCart.products.length != 0
+                  ? Positioned(
+                      right: 5,
+                      bottom: 5,
+                      child: CircleAvatar(
+                        radius: 10,
+                        backgroundColor: Colors.black,
+                        child: Text(currentCart.products.length.toString(),
+                            style: TextStyle(color: Colors.yellow)),
+                      ),
+                    )
+                  : Container(),
               IconButton(
                 icon: Icon(
                   Icons.shopping_cart_outlined,

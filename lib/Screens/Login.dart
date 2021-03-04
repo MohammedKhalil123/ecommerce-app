@@ -1,5 +1,8 @@
+import 'package:ecommerce/Models/Cart.dart';
+import 'package:ecommerce/Providers/Pcart.dart';
 import 'package:ecommerce/Screens/Home.dart';
 import 'package:ecommerce/Services/Auth.dart';
+import 'package:ecommerce/Services/Carts.dart';
 import 'package:ecommerce/Services/Users.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce/constants.dart';
@@ -13,6 +16,7 @@ class LoginScreen extends StatelessWidget {
   static String route = 'LoginScreeen';
 
   final AuthService authservice = AuthService();
+  final CartService _cartservice = CartService();
 
   final _formKey = GlobalKey<FormState>();
   @override
@@ -104,7 +108,17 @@ class LoginScreen extends StatelessWidget {
                                   context,
                                   listen: false);
 
+                              final cprovider = Provider.of<CartProvider>(
+                                  context,
+                                  listen: false);
+
                               uprovider.changeuser(currentuser);
+
+                              // get cart from database
+                              Cart cartFromDatabase =
+                                  await _cartservice.getCart(currentuser);
+                              //adding it to provider
+                              cprovider.getCart(cartFromDatabase);
 
                               Navigator.pushReplacementNamed(
                                   context, HomeScreen.route);

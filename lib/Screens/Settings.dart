@@ -1,9 +1,6 @@
-import 'package:ecommerce/Models/User.dart';
-import 'package:ecommerce/Providers/Puser.dart';
 import 'package:ecommerce/Services/Auth.dart';
 import 'package:ecommerce/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'Login.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -11,8 +8,6 @@ class SettingsScreen extends StatelessWidget {
   final _authService = AuthService();
   @override
   Widget build(BuildContext context) {
-    //to be implemented
-    final User currentuser = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),

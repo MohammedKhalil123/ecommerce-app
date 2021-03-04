@@ -1,3 +1,4 @@
+import 'package:ecommerce/Providers/Pcart.dart';
 import 'package:ecommerce/Providers/Puser.dart';
 import 'package:ecommerce/Screens/DeliverOrders.dart';
 import 'package:ecommerce/Screens/Home.dart';
@@ -19,8 +20,13 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<UserProvider>(
-      create: (context) => UserProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<UserProvider>(
+            create: (context) => UserProvider()),
+        ChangeNotifierProvider<CartProvider>(
+            create: (context) => CartProvider())
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: LoginScreen.route,

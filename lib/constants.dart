@@ -26,3 +26,7 @@ const String p_type_jacket = 'Jacket';
 const String p_type_trousers = 'Trousers';
 const String p_type_shoes = 'Shoes';
 const String p_type_shirt = 'Shirt';
+
+//Cart Constants
+const String c_userid = 'userId';
+const String c_products = 'Products';
