@@ -20,16 +20,23 @@ class SelectedProductScreen extends StatefulWidget {
   _SelectedProductScreenState createState() => _SelectedProductScreenState();
 }
 
+/*
+      This screen contains the selected product
+      User has the ability to change colors and quantity based on the product current stock
+      User can't order if it is out of stock or already added to cart
+
+*/
+
 class _SelectedProductScreenState extends State<SelectedProductScreen> {
   int counter = 1;
   final CartService cartService = CartService();
+  bool isaddedtoCart = false;
+  int selectedindex = 0;
 
   @override
   Widget build(BuildContext context) {
     final User currentuser = Provider.of<UserProvider>(context).user;
     final Cart currentCart = Provider.of<CartProvider>(context).currentCart;
-
-    bool isaddedtoCart = false;
 
     currentCart.products.forEach((element) {
       if (element.name == widget._selectedProduct.name) isaddedtoCart = true;
@@ -74,13 +81,15 @@ class _SelectedProductScreenState extends State<SelectedProductScreen> {
                         height: MediaQuery.of(context).size.height * 0.15,
                         disabledColor: Colors.grey,
                         color: mainColor,
-                        onPressed: isaddedtoCart
+                        onPressed: isaddedtoCart ||
+                                widget._selectedProduct.quantity == 0
                             ? null
                             : () {
                                 ProductItem newProduct = ProductItem(
                                     name: widget._selectedProduct.name,
                                     quantity: counter,
-                                    color: null,
+                                    color: widget
+                                        ._selectedProduct.colors[selectedindex],
                                     price: widget._selectedProduct.onSale
                                         ? widget._selectedProduct.priceaftersale
                                         : widget._selectedProduct.price);
@@ -101,7 +110,11 @@ class _SelectedProductScreenState extends State<SelectedProductScreen> {
                                 });
                               },
                         child: Text(
-                          isaddedtoCart ? 'Item already added' : 'Add to Cart',
+                          isaddedtoCart
+                              ? 'Item already added'
+                              : widget._selectedProduct.quantity == 0
+                                  ? 'Out of Stock'
+                                  : 'Add to Cart',
                           style: TextStyle(
                               fontSize: 30, fontWeight: FontWeight.bold),
                         )),
@@ -142,12 +155,21 @@ class _SelectedProductScreenState extends State<SelectedProductScreen> {
                                       horizontal: 8.0),
                                   child: CircleAvatar(
                                     radius: 22,
-                                    backgroundColor: Colors.black,
-                                    child: CircleAvatar(
-                                      radius: 20,
-                                      child: Container(),
-                                      backgroundColor: Color(int.parse(
-                                          widget._selectedProduct.colors[i])),
+                                    backgroundColor: selectedindex == i
+                                        ? Colors.blue
+                                        : Colors.black,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          selectedindex = i;
+                                        });
+                                      },
+                                      child: CircleAvatar(
+                                        radius: 20,
+                                        child: Container(),
+                                        backgroundColor: Color(int.parse(
+                                            widget._selectedProduct.colors[i])),
+                                      ),
                                     ),
                                   ),
                                 ));
@@ -195,7 +217,8 @@ class _SelectedProductScreenState extends State<SelectedProductScreen> {
                               RaisedButton(
                                 shape: CircleBorder(),
                                 color: mainColor,
-                                onPressed: isaddedtoCart
+                                onPressed: isaddedtoCart ||
+                                        widget._selectedProduct.quantity == 0
                                     ? null
                                     : () {
                                         setState(() {
@@ -218,7 +241,8 @@ class _SelectedProductScreenState extends State<SelectedProductScreen> {
                               RaisedButton(
                                 shape: CircleBorder(),
                                 color: mainColor,
-                                onPressed: isaddedtoCart
+                                onPressed: isaddedtoCart ||
+                                        widget._selectedProduct.quantity == 0
                                     ? null
                                     : () {
                                         setState(() {

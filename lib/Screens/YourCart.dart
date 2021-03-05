@@ -5,6 +5,8 @@ import 'package:ecommerce/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// Contains the cart of the customer
+
 class CartScreen extends StatelessWidget {
   static String route = 'CartScreen';
   @override

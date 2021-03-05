@@ -111,7 +111,6 @@ class _SignupScreenState extends State<SignupScreen> {
                   icon: Icons.mail,
                   isPassword: false,
                   saved: (value) {
-                    print('saved');
                     _email = value;
                   },
                   validation: (String value) {
@@ -153,28 +152,35 @@ class _SignupScreenState extends State<SignupScreen> {
                           style: TextStyle(fontSize: 18),
                         ),
                         onPressed: () async {
+                          //validating and saving the form
                           if (_signupformKey.currentState.validate()) {
                             _signupformKey.currentState.save();
                             try {
+                              //sign up the user
                               final authResult =
                                   await authservice.signUp(_email, _password);
-
+                              // creating user object
                               User newuser = User(
                                   email: _email,
                                   id: authResult.user.uid,
-                                  type: _usertype.toString().split('.').last,
+                                  type: _usertype
+                                      .toString()
+                                      .split('.')
+                                      .last, // Driver and customer can order and deliver orders , while customer only orders products
                                   username: _username);
 
                               UserServices uService = UserServices();
-
+                              // adding it to database
                               uService.addUser(newuser);
 
+                              // adding user model to provider
                               final uprovider = Provider.of<UserProvider>(
                                   context,
                                   listen: false);
 
                               uprovider.changeuser(newuser);
 
+                              // create a new cart for the user
                               _cartservice.createCart(newuser);
                               Navigator.pushReplacementNamed(
                                   context, HomeScreen.route);

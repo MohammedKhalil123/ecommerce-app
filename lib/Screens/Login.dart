@@ -94,6 +94,7 @@ class LoginScreen extends StatelessWidget {
                         textColor: Colors.white,
                         child: Text('Log in'),
                         onPressed: () async {
+                          //validating and saving the form
                           if (_formKey.currentState.validate()) {
                             _formKey.currentState.save();
                             try {
@@ -101,6 +102,7 @@ class LoginScreen extends StatelessWidget {
                                   await authservice.signIn(_email, _password);
                               UserServices uService = UserServices();
 
+                              //gettting the user from the database
                               User currentuser =
                                   await uService.getUser(authResult.user.uid);
 
@@ -112,6 +114,7 @@ class LoginScreen extends StatelessWidget {
                                   context,
                                   listen: false);
 
+                              // adding user model to provider
                               uprovider.changeuser(currentuser);
 
                               // get cart from database
@@ -123,6 +126,7 @@ class LoginScreen extends StatelessWidget {
                               Navigator.pushReplacementNamed(
                                   context, HomeScreen.route);
                             } catch (e) {
+                              //shows sign in errors
                               Scaffold.of(context).showSnackBar(SnackBar(
                                 content: Text(e.message),
                               ));

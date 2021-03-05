@@ -14,6 +14,7 @@ class CustomFormField extends StatelessWidget {
       @required this.validation,
       @required this.saved});
 
+  // used for sign up and log in forms , better maintainable code
   @override
   Widget build(BuildContext context) {
     return TextFormField(

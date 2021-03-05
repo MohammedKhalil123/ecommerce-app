@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class ProductItem {
+  // to model and display list of product items when adding them to the cart
   String name;
   int quantity;
   String color;

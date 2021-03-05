@@ -20,6 +20,7 @@ class CustomStreamBuilder extends StatefulWidget {
 
 class _CustomStreamBuilderState extends State<CustomStreamBuilder>
     with AutomaticKeepAliveClientMixin<CustomStreamBuilder> {
+  //Used to build all the products for 4 tabs
   @override
   bool get wantKeepAlive => true;
   @override

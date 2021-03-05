@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class User {
+  // to model the current user with imporant information
   String id;
   String username;
   String email;

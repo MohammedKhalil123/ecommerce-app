@@ -9,6 +9,7 @@ class UserProvider extends ChangeNotifier {
 
   User user;
 
+//changing the user when loggin in
   void changeuser(User currentuser) {
     user = User(
         id: currentuser.id,

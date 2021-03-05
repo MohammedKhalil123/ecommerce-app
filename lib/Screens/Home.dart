@@ -10,6 +10,8 @@ import 'package:ecommerce/Services/Auth.dart';
 import 'package:provider/provider.dart';
 import 'package:ecommerce/Services/Products.dart';
 
+//Home screen after loggin in contains mainly all the products in the app
+
 class HomeScreen extends StatelessWidget {
   static String route = 'HomeScreen';
 
@@ -84,6 +86,7 @@ class HomeScreen extends StatelessWidget {
         drawer: SideDrawer(currentuser: currentuser, authService: _authService),
         body: TabBarView(
           children: [
+            //get 4 stream builders for listening to changes in products while using the app
             _pservices.getShoes(),
             _pservices.getTrousers(),
             _pservices.getJackets(),

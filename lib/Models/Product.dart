@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class Product {
+  // to model and display list of products when accessing the home page
   String name;
   int quantity;
   int price;

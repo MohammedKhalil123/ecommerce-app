@@ -5,6 +5,7 @@ import 'package:ecommerce/constants.dart';
 class UserServices {
   CollectionReference db = FirebaseFirestore.instance.collection('users');
 
+// adding user info to database
   void addUser(User newuser) async {
     await db.doc(newuser.id).set({
       u_username: newuser.username,
@@ -14,6 +15,7 @@ class UserServices {
     });
   }
 
+//getting the user from database
   Future<User> getUser(String id) async {
     DocumentSnapshot usersnap = await db.doc(id).get();
 

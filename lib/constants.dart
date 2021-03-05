@@ -30,3 +30,20 @@ const String p_type_shirt = 'Shirt';
 //Cart Constants
 const String c_userid = 'userId';
 const String c_products = 'Products';
+
+//Product Item Constants
+const String pi_name = 'Name';
+const String pi_quantity = 'Qty';
+const String pi_color = 'Color';
+const String pi_price = 'Price';
+
+//Order Constants
+const String o_userid = 'userId';
+const String o_products = 'Products';
+const String o_total = 'Total';
+const String o_status = 'Status';
+
+//Order Statis Constants
+const String s_pending = 'Pending';
+const String s_outfordelivery = 'Out for delivery';
+const String s_received = 'Received';
